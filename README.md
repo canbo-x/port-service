@@ -103,6 +103,42 @@ This project's Dockerfile follows suggested practices for securing Docker contai
 - Running the service as a non-root user
 - Avoiding compilation in the Docker container
 ---
+## Further Improvements
+## Configuration
+- Consider using a configuration file (like YAML) or environment variables to configure the application, such as the path to the input file, buffer size, port, and other settings.
+
+## Implement Logger
+ - Implement a proper logging system that can be configured to log different levels of messages (info, warning, error, etc.).
+ - Logging library, such as Zap or Logrus can be used.
+
+ ## Monitoring, Metrics, and Tracing
+- Add monitoring to the service to ensure that it is running properly and to detect any issues.
+- Add metrics to the service to track the performance and usage of the service.
+- Add tracing to the service to track the flow of requests and detect any issues.
+
+## Error handling:
+- Make sure to handle all possible errors and edge cases throughout the code. For instance file errors handling is good a starting point.
+
+ ## Add Validations
+ - Add validation for JSON object to ensure that the data is in the correct format and contains the required fields as well as complains with business requirements.
+ - Add input validations.
+
+## Tests
+- Add more tests to cover more edge cases and scenarios.
+- Use tags like `go:build e2e` and add more granulites to make file to perform tests in different environments and scenarios.
+- Add code coverage to the tests.
+
+## CI/CD
+- Add CI/CD pipeline to automate the build, test, and deployment process.
+
+## Github Actions (Automated actions for CI/CD)
+- Add a linter to the pipeline to ensure that the code is formatted and linted properly.
+- Add a spell checker to the pipeline to ensure that there are no spelling errors in the code.
+- Add a code coverage tool to the pipeline to ensure that the code is fully tested.
+- Add a security scanner to the pipeline to ensure that the code is secure.
+- Add a formatter to the pipeline to ensure that the code is formatted properly.
+- Add a Docker image builder to the pipeline to ensure that the Docker image is built properly.
+---
 ## Personal Thoughts and Notes
 ## Context in `Memory DB`. 
 Integrating context into the in-memory DB operations can be advantageous in specific scenarios, such as when canceling or timing out operations. However, in this case, it may not offer substantial benefits since in-memory operations are generally fast and not expected to be time-consuming. Nevertheless, adding context for demonstrating real-world scenarios and potential future improvements could be a good idea.

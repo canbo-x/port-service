@@ -26,3 +26,4 @@ ignoreWords:
   - appgroup
   - adduser
   - appuser
+  - Logrus
