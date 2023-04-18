@@ -46,3 +46,42 @@ format:
 spell:
 	$(info Spell checking for the source code...)
 	$(LOCAL_BIN)/node_modules/cspell/bin.js "**" --config ./cspell.yml 
+
+# Docker build commands
+DOCKER_IMAGE := port-service-image
+DOCKER_TAG := latest
+
+.PHONY: docker-build
+docker-build:
+	docker build -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+
+# Docker run commands
+CONTAINER_NAME := port-service-container
+PORT_MAPPING := 8080:8080
+
+.PHONY: docker-run
+docker-run:
+	docker run -d --name $(CONTAINER_NAME) -p $(PORT_MAPPING) $(DOCKER_IMAGE):$(DOCKER_TAG)
+
+.PHONY: docker-stop
+docker-stop:
+	docker stop $(CONTAINER_NAME)
+
+.PHONY: docker-remove
+docker-remove:
+	docker rm $(CONTAINER_NAME)
+
+# Docker Compose commands
+COMPOSE_FILE := docker-compose.yml
+
+.PHONY: compose-up
+compose-up:
+	docker-compose -f $(COMPOSE_FILE) up -d
+
+.PHONY: compose-down
+compose-down:
+	docker-compose -f $(COMPOSE_FILE) down
+
+.PHONY: docker-prune
+docker-prune:
+	docker system prune -a --volumes --force
