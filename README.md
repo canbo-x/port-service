@@ -1,3 +1,108 @@
+# Port Service
+This is a simple microservice that reads port data from a file (ports.json) and either creates new records or updates existing ones in an in-memory database. The service is designed to handle files of unknown size and can be run inside a Docker container, with a Dockerfile included for easy deployment.
+
+The project aims to demonstrate best practices in Go development and showcase a strong understanding of the language and its idiomatic usage.
+
+
+## Prerequisites
+To run this project:
+
+- Go >= 1.18
+- Docker
+- Docker Compose (optional)
+- Node.js (for `cspell`, the spell checker) (Please make sure to install Node.js to run the spell checker)
+
+## Installation
+1. Clone the repository
+```bash
+git clone https://github.com/canbo-x/port-service.git
+cd port-service
+```
+
+2. Install dependencies
+```bash
+make deps
+```
+
+## Usage
+### Running the Service
+
+To build and run the service, execute the following command:
+```bash
+make build
+./bin/port-service
+```
+
+Or, you can use Docker:
+```bash
+make docker-build
+make docker-run
+```
+
+Or, you can use Docker Compose:
+```bash
+make compose-up
+```
+
+## Running Tests
+To run tests, execute the following command:
+```bash
+make test
+```
+
+## Linting
+To run the linter, execute the following command:
+```bash
+make lint
+```
+
+## Formatting
+To format the code, execute the following command:
+```bash
+make format
+```
+
+## Spell Checking
+To check for spelling errors in the code, execute the following command:
+```bash
+make spell
+```
+
+## Cleaning Up
+To clean up the build artifacts, execute the following command:
+```bash
+make clean
+```
+
+## API
+The service exposes a single HTTP endpoint:
+
+- GET /ports/{id} - Retrieves a port record by its ID
+
+Example response:
+```json
+{"id":"GBLON","name":"London","city":"London","province":"London, City of","country":"United Kingdom","alias":[],"regions":[],"coordinates":[-0.1277583,51.5073509],"timezone":"Europe/London","unlocs":["GBLON"],"code":"41352"}
+```
+
+## Signals Handling
+The service can handle the following signals:
+
+- SIGTERM: Initiates a graceful shutdown
+- SIGKILL: Initiates a graceful shutdown
+
+## Database
+This service uses an in-memory database to store the port records. The in-memory database is implemented using a Go map with proper synchronization mechanisms to ensure thread-safety.
+
+## File Reading
+The service reads the ports.json file upon starting up. It processes the file line by line, allowing it to handle large files without consuming too much memory. When a port record is read, the service either creates a new record in the database or updates the existing one.
+
+## Docker Security
+This project's Dockerfile follows suggested practices for securing Docker containers:
+
+- Using an official, minimal base image
+- Running the service as a non-root user
+- Avoiding compilation in the Docker container
+---
 ## Personal Thoughts and Notes
 ## Context in `Memory DB`. 
 Integrating context into the in-memory DB operations can be advantageous in specific scenarios, such as when canceling or timing out operations. However, in this case, it may not offer substantial benefits since in-memory operations are generally fast and not expected to be time-consuming. Nevertheless, adding context for demonstrating real-world scenarios and potential future improvements could be a good idea.
