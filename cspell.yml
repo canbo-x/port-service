@@ -12,3 +12,6 @@ ignorePaths:
 ignoreWords:
   - canbo
   - Unlocs
+  - Upsert
+  - stretchr
+  - GBLON
