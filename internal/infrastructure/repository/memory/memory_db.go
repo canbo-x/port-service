@@ -39,8 +39,6 @@ func (db *MemoryDB) Upsert(ctx context.Context, port *model.Port) error {
 }
 
 // Get returns a port from the memory database.
-// Please read the readme file for more information about the context.
-// This is just a demonstration and more details can be found in the `Personal Thoughts and Notes` section.
 func (db *MemoryDB) Get(ctx context.Context, id string) (*model.Port, error) {
 	db.mu.RLock()
 	defer db.mu.RUnlock()
