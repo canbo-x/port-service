@@ -16,3 +16,4 @@ ignoreWords:
   - stretchr
   - GBLON
   - labstack
+  - healthz
