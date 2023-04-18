@@ -59,7 +59,7 @@ func (db *MemoryDB) Get(ctx context.Context, id string) (*model.Port, error) {
 	}
 }
 
-// GetSize returns the number of ports in the memory database.
+// GetLength returns the number of ports in the memory database.
 // no test provided for this method to not complicate the example
 func (db *MemoryDB) GetLength(ctx context.Context) int {
 	db.mu.RLock()
