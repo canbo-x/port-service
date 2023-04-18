@@ -3,7 +3,10 @@ package service
 
 import (
 	"context"
+	"log"
+	"sync"
 
+	"github.com/canbo-x/port-service/internal/application/filereader"
 	"github.com/canbo-x/port-service/internal/domain/model"
 	"github.com/canbo-x/port-service/internal/domain/repository"
 	errs "github.com/canbo-x/port-service/internal/error"
@@ -53,4 +56,49 @@ func (s *PortService) GetPort(ctx context.Context, id string) (*model.Port, erro
 // GetLength returns the number of ports stored in the repository.
 func (s *PortService) GetLength(ctx context.Context) int {
 	return s.portRepo.GetLength(ctx)
+}
+
+// StoreFileToDB reads ports from a JSON file and stores them in the repository.
+func (s *PortService) StoreFileToDB(
+	ctx context.Context,
+	fileReader *filereader.JSONFileReader,
+	wg *sync.WaitGroup,
+) error {
+	defer wg.Done()
+
+	// Channels for ports and errors
+	portsCh, errCh := fileReader.ReadPorts(ctx, true)
+
+	// Process ports and errors from the channels
+	for {
+		select {
+		case port, ok := <-portsCh:
+			if !ok {
+				portsCh = nil
+			} else {
+				err := s.UpsertPort(ctx, port)
+				if err != nil {
+					log.Printf("Error upserting port: %v", err)
+					return err
+				}
+			}
+		case err, ok := <-errCh:
+			if !ok {
+				errCh = nil
+			} else {
+				log.Printf("Error reading ports: %v", err)
+				return err
+			}
+		case <-ctx.Done():
+			return ctx.Err()
+
+		}
+
+		if portsCh == nil && errCh == nil {
+			log.Printf("File imported to DB. Number of ports in the repository: %d", s.GetLength(ctx))
+			break
+		}
+	}
+
+	return nil
 }

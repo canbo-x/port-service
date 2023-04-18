@@ -17,3 +17,12 @@ ignoreWords:
   - GBLON
   - labstack
   - healthz
+  - filereader
+  - upserting
+  - jsonparser
+  - buger
+  - Unmarshals
+  - addgroup
+  - appgroup
+  - adduser
+  - appuser
