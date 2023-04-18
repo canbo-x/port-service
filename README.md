@@ -226,3 +226,52 @@ In this demonstration, a separate validation function is chosen for the followin
 - Flexibility: Using a separate validation function allows for the possibility of validating different aspects of the data with different functions, making it easier to compose complex validation logic from simpler functions.
 
 By choosing a separate validation function, the application's design remains modular and maintainable, while also promoting the reusability and flexibility of the validation logic.
+
+## processPort implementation heap vs stack allocation
+1. Implementation using `port := new(model.Port)`
+```
+func processPort(key, value []byte, skipErrors bool) (*model.Port, error) {
+	port := new(model.Port)
+
+	if err := json.Unmarshal(value, port); err != nil {
+		if skipErrors {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("failed to unmarshal port JSON: %v", err)
+	}
+
+	port.ID = string(key)
+
+	return port, nil
+}
+```
+
+2. Implementation using `var port model.Port`
+```
+func processPort(key, value []byte, skipErrors bool) (*model.Port, error) {
+	var port model.Port
+
+	if err := json.Unmarshal(value, &port); err != nil {
+		if skipErrors {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("failed to unmarshal port JSON: %v", err)
+	}
+
+	port.ID = string(key)
+
+	return &port, nil
+}
+```
+
+Both implementations of processPort are correct and accomplish the same task of unmarshalling a JSON into a model.
+
+However, there are some differences in how they achieve this goal.
+
+The first implementation uses heap allocation with port := new(model.Port) to allocate memory for a new instance of model.Port, while the second implementation uses stack allocation with var port model.Port to declare a new model.Port struct on the stack.
+
+Heap allocation requires extra overhead for managing memory allocation and deallocation, while stack allocation is generally faster because it allocates memory directly on the function's stack frame. However, because we're returning a pointer to the model.Port struct from the function, heap allocation with new is a better choice in this case.
+
+Using heap allocation with new ensures that the returned pointer to the model.Port struct is always valid and can be used safely outside of the function. This makes the code more robust and less error-prone, which is a better choice.
+
+Overall, the differences in efficiency between these two implementations are likely to be small for small to medium-sized model.Port structs. The important factor is to choose the implementation that is more readable, maintainable, and follows Go's best practices, which is the first implementation using port := new(model.Port).

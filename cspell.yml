@@ -27,3 +27,4 @@ ignoreWords:
   - adduser
   - appuser
   - Logrus
+  - unmarshalling
