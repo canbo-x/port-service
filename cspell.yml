@@ -8,5 +8,7 @@ ignorePaths:
   - go.mod
   - go.sum
   - Makefile
+  - ports.json
 ignoreWords:
   - canbo
+  - Unlocs
