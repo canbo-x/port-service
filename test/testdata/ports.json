@@ -1,0 +1,37 @@
+{
+    "GBLON": {
+      "name": "London",
+      "city": "London",
+      "country": "United Kingdom",
+      "alias": [],
+      "regions": [],
+      "coordinates": [
+        -0.0833,
+        51.5
+      ],
+      "province": "Greater London",
+      "timezone": "Europe/London",
+      "unlocs": [
+        "GBLON"
+      ],
+      "code": "12345"
+    },
+    "FRPAR": {
+      "name": "Paris",
+      "city": "Paris",
+      "country": "France",
+      "alias": [],
+      "regions": [],
+      "coordinates": [
+        2.3488,
+        48.8534
+      ],
+      "province": "Île-de-France",
+      "timezone": "Europe/Paris",
+      "unlocs": [
+        "FRPAR"
+      ],
+      "code": "23456"
+    }
+  }
+  
