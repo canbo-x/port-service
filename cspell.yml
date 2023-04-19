@@ -28,3 +28,4 @@ ignoreWords:
   - appuser
   - Logrus
   - unmarshalling
+  - FRPAR
