@@ -30,7 +30,8 @@ build:
 
 .PHONY: test
 test:
-	go test ./...
+	go clean -testcache
+	go test -race -v ./...
 
 .PHONY: lint
 lint: 
